@@ -1,252 +1,245 @@
-import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import React from 'react';
+import { Form, Radio, FormInput, Image, Grid, Container, Menu, Advertisement } from 'semantic-ui-react';
 import firebase from 'firebase';
-import {
-  Button,
-  Container,
-  Header,
-  Icon,
-  Menu,
-  Responsive,
-  Segment,
-  Sidebar,
-  Visibility,
-} from 'semantic-ui-react'
+import VetProfileForm from '../forms/VetProfileForm';
 
+const RadioExampleToggle = () => <Radio toggle />
 
-const HomepageHeading = ({ mobile }) => (
-  <Container text>
-    <Header
-      as='h1'
-      content='Petinder'
-      inverted
-      style={{
-        fontSize: mobile ? '2em' : '4em',
-        fontWeight: 'normal',
-        marginBottom: 0,
-        marginTop: mobile ? '1.5em' : '3em',
-      }}
-    />
-    <Header
-      as='h2'
-      content='¡Conectando mascotas!'
-      inverted
-      style={{
-        fontSize: mobile ? '1.5em' : '1.7em',
-        fontWeight: 'normal',
-        marginTop: mobile ? '0.5em' : '1.5em',
-      }}
-    />
-  </Container>
-)
+const OpcionesEspecie = [
+    { key: 'c', text: 'Gato', value: 'Gato' },
+    { key: 'd', text: 'Perro', value: 'Perro' },
+]
 
-HomepageHeading.propTypes = {
-  mobile: PropTypes.bool,
-}
+const OpcionesSexo = [
+    { key: 'f', text: 'Hembra', value: 'F' },
+    { key: 'm', text: 'Macho', value: 'M' },
+]
 
-class DesktopContainer extends React.Component {
-  //Manejar estados
-  constructor (){
-    super();
-    this.state={
-    //objeto
-    user: null,
-    pictures: []
-    };
-  }
-
-  handleAuth(){
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-    .then(result => console.log(`${result.user.email} ha iniciado sesion`))
-    .catch(error => console.log(`Error ${error.code}: ${error.message}`))
-}
-
-//Ciclo de vida
-componentWillMount(){
-    firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-            this.props.history.push("/filter");
-        }
-      });
-}
-
-  hideFixedMenu = () => this.setState({ fixed: false })
-  showFixedMenu = () => this.setState({ fixed: true })
-
-  render() {
-    const { children } = this.props
-    const { fixed } = this.state
-
-    return (
-      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
-        <Visibility
-          once={false}
-          onBottomPassed={this.showFixedMenu}
-          onBottomPassedReverse={this.hideFixedMenu}
-        >
-          <Segment
-            inverted
-            color='yellow'
-            textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' }}
-            vertical
-          >
-            <Menu
-              inverted
-              color='black'
-              size='large'
-            >
-              <Container>
-                <Menu.Item as='a' active>
-                 Contáctanos
-                </Menu.Item>
-                <Menu.Item as='a'>Términos y condiciones</Menu.Item>
-                <Menu.Item position='right'>
-                  <Button as='a' inverted={!fixed}>
-                    Iniciar sesión
-                  </Button>
-                  <Button inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }} onClick={this.handleAuth}>
-                    Regístrate
-                  </Button>
-                </Menu.Item>
-              </Container>
-            </Menu>
-            <HomepageHeading />
-            
-            <Button color="orange" size='huge' onClick={this.handleAuth}>
-              Únete
-              <Icon name='right arrow' />
-            </Button>
-
-          </Segment>
-        </Visibility>
-
-        {children}
-      </Responsive>
-    )
-  }
-}
-
-DesktopContainer.propTypes = {
-  children: PropTypes.node,
-}
-
-class MobileContainer extends React.Component {
-  //Manejar estados
-  constructor (){
-    super();
-    this.state={
-    //objeto
-    user: null,
-    pictures: []
-    };
-  }
-
-  handleAuth(){
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider)
-    .then(result => console.log(`${result.user.email} ha iniciado sesion`))
-    .catch(error => console.log(`Error ${error.code}: ${error.message}`))
-}
-
-//Ciclo de vida
-componentWillMount(){
-    firebase.auth().onAuthStateChanged(user => {
-        if(user) {
-            this.props.history.push("/filter");
-        }
-      });
-}
-
-  handlePusherClick = () => {
-    const { sidebarOpened } = this.state
-
-    if (sidebarOpened) this.setState({ sidebarOpened: false })
-  }
-
-  handleToggle = () => this.setState({ sidebarOpened: !this.state.sidebarOpened })
-
-  render() {
-    const { children } = this.props
-    const { sidebarOpened } = this.state
-
-    return (
-      <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
-        <Sidebar.Pushable>
-          <Sidebar as={Menu} animation='uncover' inverted vertical visible={sidebarOpened} >
-            <Menu.Item as='a' active>
-              Contáctanos
-            </Menu.Item>
-            <Menu.Item as='a'>Términos y condiciones</Menu.Item>
-            <Menu.Item as='a'>Iniciar sesión</Menu.Item>
-            <Menu.Item onClick={this.handleAuth}>Regístrate</Menu.Item>
-          </Sidebar>
-
-          <Sidebar.Pusher
-            dimmed={sidebarOpened}
-            onClick={this.handlePusherClick}
-            style={{ minHeight: '100vh' }}
-          >
-            <Segment
-              inverted
-              textAlign='center'
-              style={{ minHeight: 350, padding: '1em 0em' }}
-              vertical
-              color='yellow'
-            >
-            
-            <Menu
-              inverted
-              color='black'
-              size='large'
-            >
-              <Container>
-                <Menu inverted pointing secondary size='large'>
-                  <Menu.Item onClick={this.handleToggle}>
-                    <Icon name='sidebar' />
-                  </Menu.Item>
-                  <Menu.Item position='right'>
-                    <Button as='a' inverted>
-                      Iniciar sesión
-                    </Button>
-                  </Menu.Item>
-                </Menu>
-              </Container>
-              </Menu>
-              <HomepageHeading mobile />
-              <Button color="orange" size='huge' onClick={this.handleAuth}>
-                Únete
-                <Icon name='right arrow' />
-              </Button>
-            </Segment>
-
-            {children}
-          </Sidebar.Pusher>
-        </Sidebar.Pushable>
-      </Responsive>
-    )
-  }
-}
-
-MobileContainer.propTypes = {
-  children: PropTypes.node,
-}
-
-const ResponsiveContainer = ({ children }) => (
-  <div>
-    <DesktopContainer>{children}</DesktopContainer>
-    <MobileContainer>{children}</MobileContainer>
-  </div>
-)
-
-ResponsiveContainer.propTypes = {
-  children: PropTypes.node,
-}
-
-const LoginPage = () => (
-  <ResponsiveContainer>
+class FilterForm extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            radio: "",
+            sexo: "",
+            especie: "",
+            pedigree: false,
+            castrado: false,
+            rootRef: firebase.database().ref().child('userPets'),
+        };
     
-  </ResponsiveContainer>
-)
-export default LoginPage
+        this.handleChangeR = this.handleChangeR.bind(this);
+        this.handleChangeS = this.handleChangeS.bind(this);
+        this.componentRand = this.componentRand.bind(this);
+      }
+
+    handleChangeR = (e, { value }) => {
+        this.setState({ especie: value })
+        console.log(value);
+        this.componentRand(value, 'especie');
+    }
+    handleChangeS = (e, { value }) => {
+        this.setState({ sexo: value })
+        console.log(value);
+        this.componentRand(value, 'sexo');
+    }
+    changeRadio = e => {
+        this.setState({ [e.target.name]: e.target.checked });
+        console.log("Valor ", e.target.checked, "nombre ", e.target.name)
+    }
+
+    tarjetas(snapshot, card){
+        card.innerHTML += "<div class='ui card'>"+
+                                "<div class='content'>"+
+                                "<img src='" + snapshot.child('petInfo/petPhoto').val()+"'"+
+                                    "class='ui medium right floated image'/>"+
+                                "<div class='header'>" + snapshot.child('petInfo/petName').val() + "</div>"+
+                                "<div class='meta'>" + snapshot.child('petInfo/petBreed').val()+"</div>"+
+                                "<div class='description'>Nací el <strong>"+
+                                    snapshot.child('petInfo/petBirthDate').val() +"</strong> y me gusta (descripción que ingrese el dueño)"+
+                                "</div></div>"+
+                                "<div class='extra content'>"+
+                                "<div class='ui two buttons'>"+
+                                    "<button class='ui green basic button' role='button'>Approve</button>"+
+                                    "<button class='ui red basic button' role='button'>Decline</button>"+
+                                "</div></div></div>"
+    }
+    handleLogout () {
+        firebase.auth().signOut().then(function() {
+            // Sign-out successful.
+            console.log("Exito");
+          }).catch(function(error) {
+            // An error happened.
+            console.log("Hay error", error);
+          });
+    }
+
+    componentRand(value, filtro) {
+        console.log("INGRESO");
+        //const rootRef = firebase.database().ref().child('userPets');
+        const card = document.querySelector("#cardPets");
+        card.innerHTML = "";
+
+        if(filtro === 'sexo'){
+            if(this.state.especie === ""){
+                this.state.rootRef.on('child_added', snapshot => {
+                    if(value === 'M'){
+                        if(snapshot.child('petInfo/petSex').val() === 'M'){
+                            this.tarjetas(snapshot, card)
+                        }
+                    }else{
+                        if(snapshot.child('petInfo/petSex').val() === 'F'){
+                            this.tarjetas(snapshot, card)
+                        } 
+                    }
+                });
+            }else{
+                this.state.rootRef.orderByChild("petInfo/petSpecies").equalTo(this.state.especie).on('child_added', snapshot => {
+                    if(value === 'M'){
+                        if(snapshot.child('petInfo/petSex').val() === 'M'){
+                            this.tarjetas(snapshot, card)
+                        }
+                    }else{
+                        if(snapshot.child('petInfo/petSex').val() === 'F'){
+                            this.tarjetas(snapshot, card)
+                        } 
+                    }
+                });
+            }
+        }else{
+            if(this.state.sexo === ""){
+                this.state.rootRef.on('child_added', snapshot => {
+                    if(value === 'Gato'){
+                        if(snapshot.child('petInfo/petSpecies').val() === 'Gato'){
+                            this.tarjetas(snapshot, card)
+                        }
+                    }else{
+                        if(snapshot.child('petInfo/petSpecies').val() === 'Perro'){
+                            this.tarjetas(snapshot, card)
+                        } 
+                    }
+                });
+            }else{
+                this.state.rootRef.orderByChild("petInfo/petSex").equalTo(this.state.sexo).on('child_added', snapshot => {
+                    if(value === 'Gato'){
+                        if(snapshot.child('petInfo/petSpecies').val() === 'Gato'){
+                            this.tarjetas(snapshot, card)
+                        }
+                    }else{
+                        if(snapshot.child('petInfo/petSex').val() === 'Perro'){
+                            this.tarjetas(snapshot, card)
+                        } 
+                    }
+                });
+            }
+        }        
+    }
+
+    componentDidMount() {
+        const card = document.querySelector("#cardPets");
+
+        this.state.rootRef.on('child_added', snapshot => {
+            card.innerHTML += "<div class='ui card'>"+
+                            "<div class='content'>"+
+                            "<img src='" + snapshot.child('petInfo/petPhoto').val()+"'"+
+                                "class='ui medium right floated image'/>"+
+                            "<div class='header'>" + snapshot.child('petInfo/petName').val() + "</div>"+
+                            "<div class='meta'>" + snapshot.child('petInfo/petBreed').val()+"</div>"+
+                            "<div class='description'>Soy un <strong>"+
+                                snapshot.child('petInfo/petSpecies').val() +"</strong> que nací el "+ snapshot.child('petInfo/petBirthDate').val()+
+                            "</div></div>"+
+                            "<div class='extra content'>"+
+                            "<div class='ui two buttons'>"+
+                                "<button class='ui green basic button' role='button'>Agregar</button>"+
+                                "<button class='ui red basic button' role='button'>Ignorar</button>"+
+                            "</div></div></div>"
+        });
+    }
+
+    render() {
+        const {sexo, especie, pedigree, castrado} = this.state
+        return (
+            <Form>
+                <Menu fixed='top' inverted color='yellow'>
+                <Container>
+                    <Menu.Item as='a' header >
+                    <Image size='mini' src='https://firebasestorage.googleapis.com/v0/b/petinder-fc7b6.appspot.com/o/petinder_Pgt_icon.ico?alt=media&token=b9eb3058-8b25-4065-a5ef-db37bad65134' style={{ marginRight: '1.5em' }} />
+                    Petinder Admin
+                    </Menu.Item>
+                    <Menu.Item position='right'>
+                        <Menu.Item as='a'>
+                            <a class="userm popup icon" data-tooltip="Subir Veterinario" data-position="bottom right" href = "/profile" role="button">
+                            <i class="user md icon" ></i>
+                            </a>
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <a class="dollar sign icon" data-tooltip="Subir Anuncio" data-position="bottom right" href = "/ad" role="button">
+                            <i class="dollar sign icon" ></i>
+                            </a>
+                        </Menu.Item>
+                        <Menu.Item as='a'>
+                            <a class="signo popup icon button" data-tooltip="Cerrar sesión" data-position="bottom left" role="button" href = "/login" onClick={this.handleLogout}>
+                            <i class="sign out alternate icon"></i>
+                            </a>
+                        </Menu.Item>
+                    </Menu.Item>
+                </Container>
+                </Menu>
+                
+                <Grid>
+                <Grid.Column width={4}>
+                    <div class= "ui sticky fixed top">
+                    <br/><br/>
+                    <br/><br/>
+                    <br></br>
+                        <Form.Select
+                            fluid
+                            selection
+                            label='Especie'
+                            options={OpcionesEspecie}
+                            value={especie}
+                            placeholder='Especie'
+                            onChange={this.handleChangeR}
+                        />
+                        <br/><br/>
+                        <Form.Select
+                            fluid
+                            selection
+                            label='Sexo'
+                            options={OpcionesSexo}
+                            value={sexo}
+                            placeholder='Sexo'
+                            onChange={this.handleChangeS}
+                        />
+                        <br/><br/>
+                        <label>Otras opciones:</label>
+                        <Form.Group inline>
+                            <FormInput
+                                label='Pedigree' 
+                                name="pedigree" 
+                                type='checkbox' 
+                                checked={pedigree}
+                                onChange={this.changeRadio}
+                            />
+                            <FormInput 
+                                label='Castrado' 
+                                name="castrado" 
+                                type='checkbox' 
+                                checked={castrado} 
+                                onChange={this.changeRadio}
+                            />
+                        </Form.Group>
+                        <br/><br/>
+                        <button class="negative ui button">Eliminar filtro</button>
+                    </div>
+                </Grid.Column>
+                <Grid.Column width={9}>
+                    <br/><br/>
+                    <div class='ui cards' id ='cardPets'>
+                    </div>
+                </Grid.Column>
+                </Grid>
+            </Form>
+        );
+    }
+}
+export default FilterForm;

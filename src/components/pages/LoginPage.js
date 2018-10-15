@@ -20,7 +20,8 @@ class LoginPage extends React.Component {
         this.state={
         //objeto
         user: null,
-        pictures: []
+        picturesV: [],
+        picturesA:[]
     };
   }
 
@@ -35,7 +36,7 @@ class LoginPage extends React.Component {
     componentWillMount(){
         firebase.auth().onAuthStateChanged(user => {
             if(user) {
-                this.props.history.push("/filter");
+                this.props.history.push("/home");
             }
           });
     }
@@ -55,16 +56,15 @@ class LoginPage extends React.Component {
               color='black'
               size='large'>
               <Container>
-                <Menu.Item as='a' active>
+                <Menu.Item as='a' href = "/soporte" role="button">
                  Contáctanos
                 </Menu.Item>
-                <Menu.Item as='a'>Términos y condiciones</Menu.Item>
+                <Menu.Item as='a' href = "/terminos" role="button">
+                Términos y condiciones
+                </Menu.Item>
                 <Menu.Item position='right'>
                   <Button as='a' inverted onClick={this.handleAuth}>
                     Iniciar sesión
-                  </Button>
-                  <Button inverted style={{ marginLeft: '0.5em' }} onClick={this.handleAuth}>
-                    Regístrate
                   </Button>
                 </Menu.Item>
               </Container>
@@ -92,7 +92,7 @@ class LoginPage extends React.Component {
                 }}
                 />
                 <Button color="orange" size='huge' onClick={this.handleAuth}>
-                Únete
+                Ingresar al Administrador
                 <Icon name='right arrow' />
                 </Button>
             </Container>
