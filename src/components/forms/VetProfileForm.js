@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Form, Button, FormField, Header, Grid, Input,
     Image, Container, Menu, Radio, TextArea, Progress } from 'semantic-ui-react';
@@ -30,6 +31,7 @@ class VetProfileForm extends React.Component {
             clinicName: "",
             clinicPhone: "",
             clinicAditionalServices: "",
+            description: "",
             surgery: "",
             clinicServeDays: "",
             animalThatServes: "",
@@ -87,12 +89,13 @@ class VetProfileForm extends React.Component {
                 clinicName: this.state.data.clinicName,
                 clinicPhone: this.state.data.clinicPhone,
                 clinicAditionalServices: this.state.clinicAditionalServices,
+                vetDescription:this.state.description,
                 surgery: this.state.surgery,
                 animalThatServes: this.state.animalThatServes 
             }
         }
         console.log(record)
-        const dbRef = firebase.database().ref('userVets2');
+        const dbRef = firebase.database().ref('userVets');
         const Data = dbRef.push();
         Data.set(record);
 
@@ -129,6 +132,7 @@ class VetProfileForm extends React.Component {
         const { clinicName } = this.state.clinicName;
         const { clinicPhone } = this.state.clinicPhone;
         const { clinicAditionalServices } = this.state.clinicAditionalServices;
+        const { description } = this.state.description;
         const { animalThatServes } = this.state.animalThatServes;
         
         return (
@@ -255,6 +259,18 @@ class VetProfileForm extends React.Component {
                         value={clinicPhone}
                         onChange={this.onChange}/>
                     </FormField>
+                    
+                    <label><b>Decripción Breve</b></label>
+                    <TextArea
+                        label="Descripción Breve"
+                        id="description" 
+                        name="description"
+                        value={description}
+                        onChange={this.handleChange}
+                        label="Descripción"
+                        maxlength = "200"
+                        placeholder="Breve descripción de 200 caracteres como máximo..."/>
+
                     <label><b>Servicios adicionales</b></label>
                     <TextArea
                         label="Experiencia Adicional"
