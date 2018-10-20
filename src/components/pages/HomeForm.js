@@ -140,8 +140,9 @@ class FilterForm extends React.Component {
         this.state.rootRef.on('child_added', snapshot => {
             card.innerHTML += "<div class='ui card'>"+
                             "<div class='content'>"+
-                            "<img src='" + snapshot.child('petInfo/petPhoto').val()+"'"+
-                                "class='ui medium right floated image'/>"+
+                            "<img class='center' src='" + snapshot.child('petInfo/petPhoto').val()+"'"+
+                                "<Transformation height='250' width='250'/>"+
+                                "<class='ui medium right floated image'/>"+
                             "<div class='header'>" + snapshot.child('petInfo/petName').val() + "</div>"+
                             "<div class='meta'>" + snapshot.child('petInfo/petBreed').val()+"</div>"+
                             "<div class='description'>Soy un <strong>"+
