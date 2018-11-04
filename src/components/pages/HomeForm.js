@@ -212,23 +212,6 @@ class FilterForm extends React.Component {
                             onChange={this.handleChangeS}
                         />
                         <br/><br/>
-                        <label>Otras opciones:</label>
-                        <Form.Group inline>
-                            <FormInput
-                                label='Pedigree' 
-                                name="pedigree" 
-                                type='checkbox' 
-                                checked={pedigree}
-                                onChange={this.changeRadio}
-                            />
-                            <FormInput 
-                                label='Castrado' 
-                                name="castrado" 
-                                type='checkbox' 
-                                checked={castrado} 
-                                onChange={this.changeRadio}
-                            />
-                        </Form.Group>
                         <br/><br/>
                         <button class="negative ui button">Eliminar filtro</button>
                     </div>

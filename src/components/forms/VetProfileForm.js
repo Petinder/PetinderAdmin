@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Form, Button, FormField, Header, Grid, Input,
-    Image, Container, Menu, Radio, TextArea, Progress, Label, Icon } from 'semantic-ui-react';
+    Image, Container, Menu, Radio, TextArea, Progress, Label, Icon, Checkbox } from 'semantic-ui-react';
 import { DateInput } from 'semantic-ui-calendar-react';
 import Validator from 'validator';
 import InlineError from '../messages/InlineError';
@@ -33,8 +33,8 @@ class VetProfileForm extends React.Component {
             clinicAditionalServices: "",
             description: "",
             surgery: "",
-            clinicServeDays: "",
             animalThatServes: "",
+            daysThatServes: "",
             photoURL: 'https://react.semantic-ui.com/images/wireframe/image.png',
             uploadValue: 0
         };
@@ -91,7 +91,8 @@ class VetProfileForm extends React.Component {
                 clinicAditionalServices: this.state.clinicAditionalServices,
                 vetDescription:this.state.description,
                 surgery: this.state.surgery,
-                animalThatServes: this.state.animalThatServes 
+                animalThatServes: this.state.animalThatServes,
+                days: this.state.data.daysThatServes 
             }
         }
         console.log(record)
@@ -134,6 +135,7 @@ class VetProfileForm extends React.Component {
         const { clinicAditionalServices } = this.state.clinicAditionalServices;
         const { description } = this.state.description;
         const { animalThatServes } = this.state.animalThatServes;
+        const { daysThatServes } = this.state.daysThatServes;
         
         return (
             <Form>
@@ -321,6 +323,16 @@ class VetProfileForm extends React.Component {
                         placeholder='Escoge una opcion'
                         onChange={this.handleChangeServe}
                     />
+                    <FormField>
+                        <label htmlFor="daysThatServes">Días que atiende</label>
+                        <input 
+                        type="text" 
+                        id="daysThatServes" 
+                        name="daysThatServes" 
+                        placeholder="Días que atiende"
+                        value={daysThatServes}
+                        onChange={this.onChange}/>
+                    </FormField>
                     </Grid.Column>
                     <br/><br/>
 
