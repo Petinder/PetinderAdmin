@@ -148,11 +148,7 @@ class FilterForm extends React.Component {
                             "<div class='description'>Soy un <strong>"+
                                 snapshot.child('petInfo/petSpecies').val() +"</strong> que nací el "+ snapshot.child('petInfo/petBirthDate').val()+
                             "</div></div>"+
-                            "<div class='extra content'>"+
-                            "<div class='ui two buttons'>"+
-                                "<button class='ui green basic button' role='button'>Agregar</button>"+
-                                "<button class='ui red basic button' role='button'>Ignorar</button>"+
-                            "</div></div></div>"
+                            "</div>"
         });
     }
 

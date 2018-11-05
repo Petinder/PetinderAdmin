@@ -18,6 +18,7 @@ class AdForm extends React.Component {
             ownerPhone: "",
             petName: "",
             petBirthDate: "",
+            adUrl: "",
             photoURL: 'https://react.semantic-ui.com/images/wireframe/image.png',
             uploadValue: 0
         };
@@ -64,7 +65,8 @@ class AdForm extends React.Component {
             adInfo: {
                 adName: this.state.data.petName,
                 adReleaseDate: this.state.petBirthDate,
-                adPhoto: this.state.photoURL
+                adPhoto: this.state.photoURL,
+                adUrl: this.state.data.adUrl
             }
         }
         console.log(record)
@@ -96,6 +98,7 @@ class AdForm extends React.Component {
         const { ownerPhone } = this.state.ownerPhone;
         const { petName } = this.state.petName;
         const { ownerName } = this.state.ownerName;
+        const { adUrl } = this.state.adUrl;
 
         return (
             <Form>
@@ -160,6 +163,16 @@ class AdForm extends React.Component {
                         value={this.state.petBirthDate}
                         onChange={this.handleChange} 
                     />
+                    <FormField>
+                        <label htmlFor="adUrl">URL</label>
+                        <input 
+                        type="text" 
+                        id="adUrl" 
+                        name="adUrl" 
+                        placeholder="URL"
+                        value={adUrl}
+                        onChange={this.onChange}/>
+                    </FormField>
                 </Grid.Column>
                 <Grid.Column width={4}>
                 <br></br>
